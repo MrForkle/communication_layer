@@ -5,4 +5,5 @@ setup(name='adrts_comm_layer',
       author='MrForkle',
       url='https://github.com/MrForkle/Attack_Defend_RTS_Communication_Layer',
       install_requires=['psycopg2-binary',],
+      packages=['communication_layer.py',],
      )
