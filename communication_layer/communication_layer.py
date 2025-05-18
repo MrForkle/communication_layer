@@ -1,5 +1,5 @@
 import psycopg2 as pg_interface
-import jwt_tokens as jwt
+from communication_layer import jwt_tokens as jwt
 
 POSTGRES_DATABASE_NAME = "rts_database"
 HOST = "127.0.0.1"
