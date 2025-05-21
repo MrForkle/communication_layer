@@ -1,4 +1,5 @@
 import psycopg2 as pg_interface
+import time
 import jwt_tokens as jwt
 
 POSTGRES_DATABASE_NAME = "rts_database"
@@ -31,7 +32,13 @@ def run_query(q,params=(), has_results=False, commit=True,local_conn=None):
 
 def init_db_conn():
     global conn 
-    conn = pg_interface.connect(dsn=DSN_STRING)
+
+    connected = False
+    while connected == False:
+        try: conn = pg_interface.connect(dsn=DSN_STRING)
+        except: time.sleep(0.01)
+        else: connected = True
+
 
 
 def init_postgres_tables():
