@@ -41,7 +41,7 @@ def init_db_conn():
 
 
 
-def init_postgres_tables():
+def init():
     import hashlib
 
     local_conn = pg_interface.connect(dsn=DSN_STRING)
