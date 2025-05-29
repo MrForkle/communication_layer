@@ -30,21 +30,23 @@ def run_query(q,params=(), has_results=False, commit=True,local_conn=None):
     if commit:
         conn.commit()
 
-def init_db_conn():
-    global conn 
-
+def init_db_conn(return_conn=False):
     connected = False
     while connected == False:
-        try: conn = pg_interface.connect(dsn=DSN_STRING)
+        try: local_conn = pg_interface.connect(dsn=DSN_STRING)
         except: time.sleep(0.01)
         else: connected = True
 
+    if return_conn == False:
+        global conn 
+        conn = local_conn 
+    else: return local_conn
 
 
 def init():
     import hashlib
 
-    local_conn = pg_interface.connect(dsn=DSN_STRING)
+    local_conn = init_db_conn(return_conn=True)
 
     query = '''
     CREATE TABLE IF NOT EXISTS users (
