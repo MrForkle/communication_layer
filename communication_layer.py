@@ -30,7 +30,7 @@ def run_query(q,params=(), has_results=False, commit=True,local_conn=None):
     if commit:
         conn.commit()
 
-def init_db_conn(return_conn=False):
+def init(return_conn=False):
     connected = False
     while connected == False:
         try: local_conn = pg_interface.connect(dsn=DSN_STRING)
@@ -42,8 +42,12 @@ def init_db_conn(return_conn=False):
         conn = local_conn 
     else: return local_conn
 
+    global private_key
+    global public_key
+    private_pem,public_pem = communication_layer.get_jwt_keys()
+    private_key,public_key = jwt.convert_pems_to_objects(private_pem,public_pem)
 
-def init():
+def init_db():
     import hashlib
 
     local_conn = init_db_conn(return_conn=True)
@@ -104,3 +108,10 @@ def add_entry(table,column_values : tuple):
             query += ", "
     query += ")"
     run_query(q=query,params=column_values)
+
+def get_jwt_keys():
+    f = open("/dedicated_server/jwt_keys","r")
+    text = f.read()
+    f.close()
+    text.split(",,,")
+    return text[1],text[2]

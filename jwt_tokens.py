@@ -30,14 +30,15 @@ def generate_rsa_keys():
 
     return private_key,public_key,private_pem,public_pem
 
+def convert_pems_to_objects(private_pem,public_pem):
+    private_key = serialization.load_pem_private_key(pem_data, password=None, backend=default_backend())
+    public_key = serialization.load_pem_public_key(pem_data, backend=default_backend())
+    return private_key,public_key
 
-def main():
-    private_key,public_key,private_pem,public_pem = generate_rsa_keys()
-    encoded = jwt.encode({"some": "payload"}, private_key, algorithm="RS256")
-    print(encoded)
-    try:
-        decode = jwt.decode(encoded, public_key, algorithms=["RS256"])
-    except jwt.exceptions.InvalidSignatureError:
-        print("Invalid Signature")
-    else:
-        print(decode)
+def encode(message,key):
+    encoded = jwt.encode(message,key, algorithm="RS256")
+    return encoded
+
+def decode(encoded,key):
+    decoded = jwt.decode(encoded,key, algorithms=["RS256"])
+    return decoded
