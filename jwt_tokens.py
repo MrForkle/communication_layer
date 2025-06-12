@@ -33,10 +33,6 @@ def generate_rsa_keys():
 
 def main():
     private_key,public_key,private_pem,public_pem = generate_rsa_keys()
-
-    print("Private Key:\n", private_pem)
-    print("\nPublic Key:\n", public_pem)
-
     encoded = jwt.encode({"some": "payload"}, private_key, algorithm="RS256")
     print(encoded)
     try:
@@ -45,6 +41,3 @@ def main():
         print("Invalid Signature")
     else:
         print(decode)
-
-if __name__ == "__main__":
-    main()

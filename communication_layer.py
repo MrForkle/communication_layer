@@ -10,7 +10,7 @@ PASSWORD = "password"
 DB = "rts_database"
 DSN_STRING = f'user={USERNAME} password={PASSWORD} dbname={DB} host={HOST} port={PORT}'
 
-jwt_expiration_offset = "6 SECONDS"
+jwt_expiration_offset = "15778800" #in seconds
 
 def run_query(q,params=(), has_results=False, commit=True,local_conn=None):
     if local_conn is None:
@@ -56,20 +56,23 @@ def init():
         hashed_password TEXT NOT NULL,
         password_salt INTEGER NOT NULL
     );
-    TRUNCATE chats,chat_members;
-
-    INSERT INTO chats (chat_id,chat_name)
-    VALUES (%s,'global');
     '''
     run_query(query,((hashlib.sha512(('global').encode("utf-8"))).hexdigest(),),local_conn=local_conn)
 
     local_conn.close()
 
-    private_key,public_key,private_pem,public_pem = jwt.generate_rsa_keys()
-    add_jwt_keys(private_pem,public_pem,jwt_expiration_offset)
-    
-
-
+    f = open("/dedicated_server/jwt_keys","x")
+    f.close()
+    f = open("/dedicated_server/jwt_keys","r")
+    text = f.read()
+    f.close()
+    text.split(",,,")
+    if float(text[0]) >= time.time():
+        f = open("/dedicated_server/jwt_keys","w")
+        f.write('')
+        f.close()
+        private_key,public_key,private_pem,public_pem = jwt.generate_rsa_keys()
+        add_jwt_keys(private_pem,public_pem,jwt_expiration_offset)
 
 def get_entries(table,columns,search_keywords,boolean="AND"):
     #create the query
@@ -88,8 +91,8 @@ def get_all_entries(table):
     return run_query(query,has_results=True)
 
 def add_jwt_keys(new_private_key,new_public_key,jwt_expiration_offset):
-    f = open("Dedicated Server/jwt_keys.txt",'a')
-    f.write(new_private_key + new_public_key)
+    f = open("/dedicated_server/jwt_keys",'a')
+    f.write(str(time.time() + jwt_expiration_offset) + ",,," + new_private_key + ",,," + new_public_key)
     f.close()
 
 
