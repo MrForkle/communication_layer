@@ -32,7 +32,7 @@ def run_query(q,params=(), has_results=False, commit=True,local_conn=None):
     if commit:
         conn.commit()
 
-def init(return_conn=False):
+def init(return_conn=False,get_jwt_keys=True):
     connected = False
     while connected == False:
         try: local_conn = pg_interface.connect(dsn=DSN_STRING)
@@ -44,15 +44,16 @@ def init(return_conn=False):
         conn = local_conn 
     else: return local_conn
 
-    global private_key
-    global public_key
-    private_pem,public_pem = communication_layer.get_jwt_keys()
-    private_key,public_key = jwt_tokens.convert_pems_to_objects(private_pem,public_pem)
+    if get_jwt_keys:
+        global private_key
+        global public_key
+        private_pem,public_pem = communication_layer.get_jwt_keys()
+        private_key,public_key = jwt_tokens.convert_pems_to_objects(private_pem,public_pem)
 
 def init_db():
     import hashlib
 
-    local_conn = init_db_conn(return_conn=True)
+    local_conn = init(return_conn=True,get_jwt_keys=False)
 
     query = '''
     CREATE TABLE IF NOT EXISTS users (
