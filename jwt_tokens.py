@@ -35,8 +35,8 @@ def convert_pems_to_objects(private_pem,public_pem):
     public_key = serialization.load_pem_public_key(pem_data, backend=default_backend())
     return private_key,public_key
 
-def encode(message,key):
-    encoded = jwt.encode(message,key, algorithm="RS256")
+def encode(payload,key):
+    encoded = jwt.encode(payload,key, algorithm="RS256")
     return encoded
 
 def decode(encoded,key):

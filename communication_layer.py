@@ -1,6 +1,7 @@
 import psycopg2 as pg_interface
 import time
-import jwt_tokens as jwt
+import jwt_tokens
+import jwt
 
 POSTGRES_DATABASE_NAME = "rts_database"
 HOST = "127.0.0.1"
@@ -10,7 +11,8 @@ PASSWORD = "password"
 DB = "rts_database"
 DSN_STRING = f'user={USERNAME} password={PASSWORD} dbname={DB} host={HOST} port={PORT}'
 
-jwt_expiration_offset = "15778800" #in seconds
+jwt_key_expiration_offset = "15778800" #in seconds
+jwt_token_expiration_offset = 604800 #in seconds
 
 def run_query(q,params=(), has_results=False, commit=True,local_conn=None):
     if local_conn is None:
@@ -45,7 +47,7 @@ def init(return_conn=False):
     global private_key
     global public_key
     private_pem,public_pem = communication_layer.get_jwt_keys()
-    private_key,public_key = jwt.convert_pems_to_objects(private_pem,public_pem)
+    private_key,public_key = jwt_tokens.convert_pems_to_objects(private_pem,public_pem)
 
 def init_db():
     import hashlib
@@ -75,8 +77,8 @@ def init_db():
         f = open("/dedicated_server/jwt_keys","w")
         f.write('')
         f.close()
-        private_key,public_key,private_pem,public_pem = jwt.generate_rsa_keys()
-        add_jwt_keys(private_pem,public_pem,jwt_expiration_offset)
+        private_key,public_key,private_pem,public_pem = jwt_tokens.generate_rsa_keys()
+        add_jwt_keys(private_pem,public_pem,jwt_key_expiration_offset)
 
 def get_entries(table,columns,search_keywords,boolean="AND"):
     #create the query
@@ -94,9 +96,9 @@ def get_all_entries(table):
     query = f"select * from {table}"
     return run_query(query,has_results=True)
 
-def add_jwt_keys(new_private_key,new_public_key,jwt_expiration_offset):
+def add_jwt_keys(new_private_key,new_public_key,jwt_key_expiration_offset):
     f = open("/dedicated_server/jwt_keys",'a')
-    f.write(str(time.time() + jwt_expiration_offset) + ",,," + new_private_key + ",,," + new_public_key)
+    f.write(str(time.time() + jwt_key_expiration_offset) + ",,," + new_private_key + ",,," + new_public_key)
     f.close()
 
 
@@ -115,3 +117,20 @@ def get_jwt_keys():
     f.close()
     text.split(",,,")
     return text[1],text[2]
+
+def create_jwt_token(payload:tuple,expiration= time.time() + jwt_token_expiration_offset):
+    expiration = str(expiration)
+    payload["expiration"] = expiration
+    encoded = jwt_tokens.encode(payload,private_key)
+    return encoded
+
+def verify_jwt_token(token,return_decoded=False):
+    try:
+        decoded = jwt_tokens.decode()
+    except jwt.InvalidSignatureError:
+        return jwt.InvalidSignatureError
+    else:
+        if return_decoded:
+            return decoded
+        else:
+            return 0
