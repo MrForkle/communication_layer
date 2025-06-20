@@ -49,7 +49,7 @@ def init(return_conn=False,get_jwt_keys=True):
     if get_jwt_keys:
         global private_key
         global public_key
-        private_pem,public_pem = communication_layer.get_jwt_keys()
+        private_pem,public_pem = get_jwt_keys()
         private_key,public_key = jwt_tokens.convert_pems_to_objects(private_pem,public_pem)
 
 def init_db():
