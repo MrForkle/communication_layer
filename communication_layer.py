@@ -36,7 +36,9 @@ def init(return_conn=False,get_jwt_keys=True):
     connected = False
     while connected == False:
         try: local_conn = pg_interface.connect(dsn=DSN_STRING)
-        except: time.sleep(0.01)
+        except:
+            print("Could not connect to DB. Sleeping.")
+            time.sleep(1)
         else: connected = True
 
     if return_conn == False:
