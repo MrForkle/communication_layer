@@ -4,7 +4,7 @@ import jwt_tokens
 import jwt
 
 POSTGRES_DATABASE_NAME = "rts_database"
-HOST = "127.0.0.1"
+HOST = "10.1.10.110"
 PORT = 5432
 USERNAME = "postgres"
 PASSWORD = "password"
