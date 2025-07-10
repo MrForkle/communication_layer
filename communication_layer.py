@@ -14,6 +14,8 @@ DSN_STRING = f'user={USERNAME} password={PASSWORD} dbname={DB} host={HOST} port=
 jwt_key_expiration_offset = "15778800" #in seconds
 jwt_token_expiration_offset = 604800 #in seconds
 
+jwt_keys_path = "/dedicated_server/jwt_keys.txt"
+
 def run_query(q,params=(), has_results=False, commit=True,local_conn=None):
     if local_conn is None:
         local_conn = conn
@@ -70,17 +72,17 @@ def init_db():
 
     local_conn.close()
 
-#    try:
-#        f = open("/dedicated_server/jwt_keys","x")
-#        f.close()
-#    except:
-#        pass
-    f = open("/dedicated_server/jwt_keys","r")
+    try:
+        f = open(jwt_keys_path,"x")
+        f.close()
+    except:
+        pass
+    f = open(jwt_keys_path,"r")
     text = f.read()
     f.close()
     text.split(",,,")
     if float(text[0]) >= time.time():
-        f = open("/dedicated_server/jwt_keys","w")
+        f = open(jwt_keys_path,"w")
         f.write('')
         f.close()
         private_key,public_key,private_pem,public_pem = jwt_tokens.generate_rsa_keys()
@@ -103,7 +105,7 @@ def get_all_entries(table):
     return run_query(query,has_results=True)
 
 def add_jwt_keys(new_private_key,new_public_key,jwt_key_expiration_offset):
-    f = open("/dedicated_server/jwt_keys",'a')
+    f = open(jwt_keys_path,'a')
     f.write(str(time.time() + jwt_key_expiration_offset) + ",,," + new_private_key + ",,," + new_public_key)
     f.close()
 
@@ -118,7 +120,7 @@ def add_entry(table,column_values : tuple):
     run_query(q=query,params=column_values)
 
 def get_jwt_keys():
-    f = open("/dedicated_server/jwt_keys","r")
+    f = open(jwt_keys_path,"r")
     text = f.read()
     f.close()
     text.split(",,,")
