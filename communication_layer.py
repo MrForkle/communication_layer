@@ -83,9 +83,9 @@ def init_db():
     text = text.split(",,,")
     print(text)
     if text == [] or len(text) != 2:
-        set_jwt_key_file
-    if float(text[0]) >= time.time():
-        set_jwt_key_file
+        set_jwt_key_file()
+    elif float(text[0]) >= time.time():
+        set_jwt_key_file()
 
 def set_jwt_key_file():
     f = open(jwt_keys_path,"w")
