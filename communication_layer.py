@@ -80,7 +80,7 @@ def init_db():
     f = open(jwt_keys_path,"r")
     text = f.read()
     f.close()
-    text.split(",,,")
+    text = text.split(",,,")
     if not(text == [] or len(text) != 2):
         return
     if not(float(text[0]) >= time.time()):
