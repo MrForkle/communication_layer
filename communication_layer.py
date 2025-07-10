@@ -81,6 +81,7 @@ def init_db():
     text = f.read()
     f.close()
     text = text.split(",,,")
+    print(text)
     if not(text == [] or len(text) != 2):
         return
     if not(float(text[0]) >= time.time()):
