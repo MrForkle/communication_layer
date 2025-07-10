@@ -30,7 +30,7 @@ def run_query(q,params=(), has_results=False, commit=True,local_conn=None):
             except psycopg2.NoResults:
                 return []
     if commit:
-        conn.commit()
+        local_conn.commit()
 
 def init(return_conn=False,get_jwt_keys=True):
     connected = False
