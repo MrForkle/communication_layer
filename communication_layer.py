@@ -70,8 +70,11 @@ def init_db():
 
     local_conn.close()
 
-    f = open("/dedicated_server/jwt_keys","x")
-    f.close()
+    try:
+        f = open("/dedicated_server/jwt_keys","x")
+        f.close()
+    except:
+        pass
     f = open("/dedicated_server/jwt_keys","r")
     text = f.read()
     f.close()
@@ -119,6 +122,7 @@ def get_jwt_keys():
     text = f.read()
     f.close()
     text.split(",,,")
+    print(text[1],text[2],flush=True)
     return text[1],text[2]
 
 def create_jwt_token(payload:tuple,expiration= time.time() + jwt_token_expiration_offset):
