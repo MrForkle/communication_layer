@@ -11,7 +11,7 @@ PASSWORD = "password"
 DB = "rts_database"
 DSN_STRING = f'user={USERNAME} password={PASSWORD} dbname={DB} host={HOST} port={PORT}'
 
-jwt_key_expiration_offset = "15778800" #in seconds
+jwt_key_expiration_offset = 15778800.0 #in seconds
 jwt_token_expiration_offset = 604800 #in seconds
 
 jwt_keys_path = "/dedicated_server/jwt_keys.txt"
