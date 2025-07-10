@@ -70,11 +70,11 @@ def init_db():
 
     local_conn.close()
 
-    try:
-        f = open("/dedicated_server/jwt_keys","x")
-        f.close()
-    except:
-        pass
+#    try:
+#        f = open("/dedicated_server/jwt_keys","x")
+#        f.close()
+#    except:
+#        pass
     f = open("/dedicated_server/jwt_keys","r")
     text = f.read()
     f.close()
