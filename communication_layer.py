@@ -81,12 +81,15 @@ def init_db():
     text = f.read()
     f.close()
     text.split(",,,")
-    if float(text[0]) >= time.time():
-        f = open(jwt_keys_path,"w")
-        f.write('')
-        f.close()
-        private_key,public_key,private_pem,public_pem = jwt_tokens.generate_rsa_keys()
-        add_jwt_keys(private_pem,public_pem,jwt_key_expiration_offset)
+    if not(text == [] or len(text) != 2):
+        return
+    if not(float(text[0]) >= time.time()):
+        return
+    f = open(jwt_keys_path,"w")
+    f.write('')
+    f.close()
+    private_key,public_key,private_pem,public_pem = jwt_tokens.generate_rsa_keys()
+    add_jwt_keys(private_pem,public_pem,jwt_key_expiration_offset)
 
 def get_entries(table,columns,search_keywords,boolean="AND"):
     #create the query
