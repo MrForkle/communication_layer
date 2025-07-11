@@ -14,7 +14,7 @@ DSN_STRING = f'user={USERNAME} password={PASSWORD} dbname={DB} host={HOST} port=
 jwt_key_expiration_offset = 15778800.0 #in seconds
 jwt_token_expiration_offset = 604800 #in seconds
 
-jwt_keys_path = "/dedicated_server/jwt_keys.txt"
+jwt_keys_path = "/dedicated_server/jwt_keys/jwt_keys.txt"
 
 def run_query(q,params=(), has_results=False, commit=True,local_conn=None):
     if local_conn is None:
