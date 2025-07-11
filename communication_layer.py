@@ -129,6 +129,7 @@ def get_jwt_keys():
     text = f.read()
     f.close()
     text.split(",,,")
+    print(text,flush=True)
     return text[1],text[2]
 
 def create_jwt_token(payload:tuple,expiration= time.time() + jwt_token_expiration_offset):
