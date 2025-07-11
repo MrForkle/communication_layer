@@ -34,7 +34,7 @@ def run_query(q,params=(), has_results=False, commit=True,local_conn=None):
     if commit:
         local_conn.commit()
 
-def init(return_conn=False,get_jwt_keys=True):
+def init(return_conn=False,call_get_jwt_keys=True):
     connected = False
     while connected == False:
         try: local_conn = pg_interface.connect(dsn=DSN_STRING)
@@ -48,7 +48,7 @@ def init(return_conn=False,get_jwt_keys=True):
         conn = local_conn 
     else: return local_conn
 
-    if get_jwt_keys:
+    if call_get_jwt_keys:
         global private_key
         global public_key
         private_pem,public_pem = get_jwt_keys()
@@ -81,7 +81,6 @@ def init_db():
     text = f.read()
     f.close()
     text = text.split(",,,")
-    print(text)
     if text == [] or len(text) != 2:
         set_jwt_key_file()
     elif float(text[0]) >= time.time():
@@ -130,7 +129,6 @@ def get_jwt_keys():
     text = f.read()
     f.close()
     text.split(",,,")
-    print(text[1],text[2],flush=True)
     return text[1],text[2]
 
 def create_jwt_token(payload:tuple,expiration= time.time() + jwt_token_expiration_offset):
