@@ -31,7 +31,6 @@ def generate_rsa_keys():
     return private_key,public_key,private_pem,public_pem
 
 def convert_pems_to_objects(private_pem,public_pem):
-    print(private_pem,public_pem,flush=True)
     private_key = serialization.load_pem_private_key(bytes(private_pem,"utf-8"), password=None, backend=default_backend())
     public_key = serialization.load_pem_public_key(bytes(public_pem,"utf-8"), backend=default_backend())
     return private_key,public_key

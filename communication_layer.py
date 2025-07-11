@@ -127,10 +127,8 @@ def add_entry(table,column_values : tuple):
 def get_jwt_keys():
     f = open(jwt_keys_path,"r")
     text = f.read()
-    print(text,flush=True)
     f.close()
-    text.split(",,,")
-    print(text,flush=True)
+    text = text.split(",,,")
     return text[1],text[2]
 
 def create_jwt_token(payload:tuple,expiration= time.time() + jwt_token_expiration_offset):
