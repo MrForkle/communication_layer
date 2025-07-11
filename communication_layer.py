@@ -57,7 +57,7 @@ def init(return_conn=False,call_get_jwt_keys=True):
 def init_db():
     import hashlib
 
-    local_conn = init(return_conn=True,get_jwt_keys=False)
+    local_conn = init(return_conn=True,call_get_jwt_keys=False)
 
     query = '''
     CREATE TABLE IF NOT EXISTS users (
