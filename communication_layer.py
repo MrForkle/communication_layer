@@ -127,6 +127,7 @@ def add_entry(table,column_values : tuple):
 def get_jwt_keys():
     f = open(jwt_keys_path,"r")
     text = f.read()
+    print(text,flush=True)
     f.close()
     text.split(",,,")
     print(text,flush=True)
