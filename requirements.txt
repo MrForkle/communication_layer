@@ -1,2 +1,3 @@
 PyJWT
+cryptography
 psycopg2-binary
