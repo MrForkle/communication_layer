@@ -131,7 +131,7 @@ def get_jwt_keys():
     text = text.split(",,,")
     return text[1],text[2]
 
-def create_jwt_token(payload:tuple,expiration= time.time() + jwt_token_expiration_offset):
+def create_jwt_token(payload,expiration= time.time() + jwt_token_expiration_offset):
     expiration = str(expiration)
     payload["expiration"] = expiration
     encoded = jwt_tokens.encode(payload,private_key)
