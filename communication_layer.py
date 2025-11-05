@@ -122,7 +122,7 @@ def add_entry(table,column_values : tuple):
             query += ", "
     query += ")"
     query = sql.SQL("insert into {table} \n VALUES (" + query).format(table=sql.Identifier(table))
-    run_query(q=query,params=(table,) + column_values)
+    run_query(q=query,params=column_values)
 
 def get_jwt_keys():
     f = open(jwt_keys_path,"r")
