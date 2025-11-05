@@ -116,12 +116,12 @@ def add_jwt_keys(new_private_key,new_public_key,jwt_key_expiration_offset):
 
 
 def add_entry(table,column_values : tuple):
-    query = sql.SQL("insert into {table} \n VALUES (").format(table=sql.Identifier(table))
     for i in range(len(column_values)):
         query += "%s"
         if i != (len(column_values)-1):
             query += ", "
     query += ")"
+    query = sql.SQL("insert into {table} \n VALUES (" + query).format(table=sql.Identifier(table))
     run_query(q=query,params=(table,) + column_values)
 
 def get_jwt_keys():
