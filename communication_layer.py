@@ -96,7 +96,7 @@ def set_jwt_key_file():
 
 def get_entries(table,columns,search_keywords,boolean="AND"):
     #create the query
-    query = sql.SQL("select from {table}").format(table=sql.Identifier(table)) + "WHERE %s = %s"
+    query = sql.SQL("select from {table} WHERE %s = %s").format(table=sql.Identifier(table))
     if len(columns) != 1:
         for i in range(len(columns)):
             if i == 0: 
@@ -116,7 +116,7 @@ def add_jwt_keys(new_private_key,new_public_key,jwt_key_expiration_offset):
 
 
 def add_entry(table,column_values : tuple):
-    query = sql.SQL("insert into {table}").format(table=sql.Identifier(table)) + "\n VALUES ("
+    query = sql.SQL("insert into {table} \n VALUES (").format(table=sql.Identifier(table))
     for i in range(len(column_values)):
         query += "%s"
         if i != (len(column_values)-1):
