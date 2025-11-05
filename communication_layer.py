@@ -64,7 +64,7 @@ def init_db():
     CREATE TABLE IF NOT EXISTS users (
         id TEXT PRIMARY KEY,
         id_salt INTEGER NOT NULL,
-        name TEXT NOT NULL,
+        name TEXT UNIQUE NOT NULL,
         hashed_password TEXT NOT NULL,
         password_salt INTEGER NOT NULL
     );
