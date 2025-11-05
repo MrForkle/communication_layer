@@ -95,19 +95,19 @@ def set_jwt_key_file():
 
 def get_entries(table,columns,search_keywords,boolean="AND"):
     #create the query
-    query = f"SELECT * FROM {table} WHERE {columns[0]} = \'{search_keywords[0]}\'"
+    query = "SELECT * FROM %s WHERE %s = \'%s\'"
 
     if len(columns) != 1:
         for i in range(len(columns)):
             if i == 0: 
                 continue
             query += " " + boolean + f" {columns[i]} = {search_keywords[i]}"
-    return run_query(query,has_results=True)
+    return run_query(query,params=(table,columns[0],search_keywords[0]),has_results=True)
 
 
 def get_all_entries(table):
-    query = f"select * from {table}"
-    return run_query(query,has_results=True)
+    query = "select * from %s"
+    return run_query(query,params=(table,),has_results=True)
 
 def add_jwt_keys(new_private_key,new_public_key,jwt_key_expiration_offset):
     f = open(jwt_keys_path,'a')
@@ -116,13 +116,13 @@ def add_jwt_keys(new_private_key,new_public_key,jwt_key_expiration_offset):
 
 
 def add_entry(table,column_values : tuple):
-    query = f"INSERT INTO {table} \n VALUES ("
+    query = "INSERT INTO %s \n VALUES ("
     for i in range(len(column_values)):
         query += "%s"
         if i != (len(column_values)-1):
             query += ", "
     query += ")"
-    run_query(q=query,params=column_values)
+    run_query(q=query,params=(table,) + column_values)
 
 def get_jwt_keys():
     f = open(jwt_keys_path,"r")
