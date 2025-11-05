@@ -116,6 +116,7 @@ def add_jwt_keys(new_private_key,new_public_key,jwt_key_expiration_offset):
 
 
 def add_entry(table,column_values : tuple):
+    query = ""
     for i in range(len(column_values)):
         query += "%s"
         if i != (len(column_values)-1):
