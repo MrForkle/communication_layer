@@ -95,8 +95,7 @@ def set_jwt_key_file():
 
 def get_entries(table,columns,search_keywords,boolean="AND"):
     #create the query
-    query = "SELECT * FROM %s WHERE %s = \'%s\'"
-
+    query = "SELECT * FROM %s WHERE %s = %s"
     if len(columns) != 1:
         for i in range(len(columns)):
             if i == 0: 
