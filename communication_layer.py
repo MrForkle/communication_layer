@@ -102,7 +102,10 @@ def get_entries(table,columns,search_keywords,boolean="AND"):
             if i == 0: 
                 continue
             query += " " + boolean + f" {columns[i]} = {search_keywords[i]}"
-    query = sql.SQL("select from {table} WHERE %s = %s \n" + query).format(table=sql.Identifier(table))
+    query = sql.SQL("select from {table} WHERE {column} = %s \n" + query).format(
+        table=sql.Identifier(table),
+        column=sql.Identifier(columns)
+        )
     return run_query(query,params=(columns[0],search_keywords[0]),has_results=True)
 
 
