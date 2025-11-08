@@ -100,12 +100,15 @@ def get_entries(table,columns,search_keywords,boolean="AND"):
         return 1
     query = sql.SQL("").format()
     for i in range(len(columns)):
-        query += sql.SQL(" {boolean} {column} = {search_keyword}").format(
+        tmp_query = ""
+        if i != 0:
+            tmp_query = " {boolean}"
+        query += sql.SQL( tmp_query + " {column} = {search_keyword}").format(
             boolean=sql.Identifier(boolean),
             column=sql.Identifier(columns[i]),
             search_keyword=sql.Identifier(search_keywords[i])
         )
-    query = sql.SQL("select from {table} WHERE {column} = %s \n").format(
+    query = sql.SQL("select from {table} WHERE").format(
         table=sql.Identifier(table),
         ) + query
     print(query,flush=True)
