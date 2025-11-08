@@ -133,6 +133,7 @@ def get_jwt_keys():
     f = open(jwt_keys_path,"r")
     text = f.read()
     f.close()
+    print(text)
     text = text.split(",,,")
     return text[1],text[2]
 
