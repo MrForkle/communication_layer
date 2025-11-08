@@ -107,7 +107,7 @@ def get_entries(table,columns,search_keywords,boolean="AND"):
             boolean=sql.Identifier(boolean),
             column=sql.Identifier(columns[i])
         )
-    query = sql.SQL("select from {table} WHERE").format(
+    query = sql.SQL("select * from {table} WHERE").format(
         table=sql.Identifier(table),
         ) + query
     return run_query(query,params=search_keywords,has_results=True)
