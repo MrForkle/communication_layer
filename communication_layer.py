@@ -96,15 +96,17 @@ def set_jwt_key_file():
 
 def get_entries(table,columns,search_keywords,boolean="AND"):
     #create the query
-    query = ""
-    if len(columns) != 1:
-        for i in range(len(columns)):
-            if i == 0: 
-                continue
-            query += " " + boolean + f" {columns[i]} = {search_keywords[i]}"
+    if len(columns) != len(search_keywords):
+        return 1
+    query = sql.SQL("").format()
+    for i in range(len(columns)):
+        query += sql.SQL(" {boolean} {column} = {search_keyword}").format(
+            boolean=sql.Identifier(boolean),
+            column=sql.Identifier(columns[i]),
+            search_keyword=sql.Identifier(search_keyword[i])
+        )
     query = sql.SQL("select from {table} WHERE {column} = %s \n" + query).format(
         table=sql.Identifier(table),
-        column=sql.Identifier(columns)
         )
     return run_query(query,params=(columns[0],search_keywords[0]),has_results=True)
 
