@@ -110,7 +110,6 @@ def get_entries(table,columns,search_keywords,boolean="AND"):
     query = sql.SQL("select from {table} WHERE").format(
         table=sql.Identifier(table),
         ) + query
-    print(query,flush=True)
     return run_query(query,params=search_keywords,has_results=True)
 
 
@@ -137,8 +136,8 @@ def add_entry(table,column_values : tuple):
 def get_jwt_keys():
     f = open(jwt_keys_path,"r")
     text = f.read()
-    f.close()
     print(text,flush=True)
+    f.close()
     text = text.split(",,,")
     return text[1],text[2]
 
