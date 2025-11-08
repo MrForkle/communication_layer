@@ -105,9 +105,10 @@ def get_entries(table,columns,search_keywords,boolean="AND"):
             column=sql.Identifier(columns[i]),
             search_keyword=sql.Identifier(search_keywords[i])
         )
-    query = sql.SQL("select from {table} WHERE {column} = %s \n" + query).format(
+    query = sql.SQL("select from {table} WHERE {column} = %s \n").format(
         table=sql.Identifier(table),
-        )
+        ) + query
+    print(query,flush=True)
     return run_query(query,params=(columns[0],search_keywords[0]),has_results=True)
 
 
@@ -135,7 +136,7 @@ def get_jwt_keys():
     f = open(jwt_keys_path,"r")
     text = f.read()
     f.close()
-    print(text)
+    print(text,flush=True)
     text = text.split(",,,")
     return text[1],text[2]
 
