@@ -134,10 +134,12 @@ def add_entry(table,column_values : tuple):
     run_query(q=query,params=column_values)
 
 def get_jwt_keys():
-    f = open(jwt_keys_path,"r")
-    text = f.read()
-    print(text,flush=True)
-    f.close()
+    text = ''
+    while text == '':
+        time.sleep(0.01)
+        f = open(jwt_keys_path,"r")
+        text = f.read()
+        f.close()
     text = text.split(",,,")
     return text[1],text[2]
 
